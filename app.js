@@ -9,10 +9,17 @@ var Tasks=require('./routes/Tasks');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
+
+app.set('views', path.join(__dirname, 'views')); 
+app.set('view engine', 'pug'); 
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -24,10 +31,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/node_modules', express.static(__dirname + '/node_modules')); 
 app.use('/style', express.static(__dirname + '/style'));
 
-app.use('/', index);
+app.use('/', Tasks);
 app.use('/users', users);
 app.use(cors());
 app.use('/Tasks',Tasks);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator()); 
+app.use(cookieParser());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
